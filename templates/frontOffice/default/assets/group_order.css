@@ -1,0 +1,74 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+.CartManagerPreview {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    background: #a0aec0;
+    width: 480px;
+    height: 50%;
+    max-width: 100%;
+    box-shadow: 0px 1px 20px 2px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    color: black;
+}
+
+.CartManagerPreview-user {
+    background: #f7fafc;
+}
+
+.CartManagerPreview-user.active .CartManagerPreview-user-cart {
+    display: block;
+}
+
+.CartManagerPreview-user:not(:first-child) {
+    border-top: 1px solid #a0aec0;
+}
+
+.CartManagerPreview-user-name {
+    font-weight: bold;
+    padding: 15px;
+    background: #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.CartManagerPreview-user-name:hover {
+    background: #1a202c;
+    color: #fff;
+    cursor: pointer;
+}
+
+.CartManagerPreview-user-cart {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.CartManagerPreview-user-cart li {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.CartManagerPreview-user-cart li:nth-child(even) {
+    background: #edf2f7;
+}
+
+.CartManagerPreview-user-name + input {
+    display: none;
+}
+
+.CartManagerPreview-user-name + input:checked + .CartManagerPreview-user-cart {
+    display: block;
+}

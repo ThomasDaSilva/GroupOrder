@@ -1,0 +1,21 @@
+<script type="text/javascript">
+    $('#show_create_sub_customer').on("click", function () {
+        $("#create_sub_customer").show();
+    });
+
+    $('.hide_create_sub_customer').on("click", function () {
+        $("#create_sub_customer").hide();
+    });
+
+    $('.show_update_sub_customer').on("click", function () {
+        const id = $(this).attr("data-id");
+        console.log(id);
+        $("#update_sub_customer_" + id).show();
+    });
+
+    $('.hide_update_sub_customer').on("click", function () {
+        const id = $(this).attr("data-id");
+        $("#update_sub_customer_" + id).hide();
+    });
+
+</script>

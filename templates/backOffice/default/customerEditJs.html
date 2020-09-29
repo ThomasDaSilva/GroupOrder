@@ -1,0 +1,23 @@
+{loop type="group_order_main_customer" name="main_customer_loop" customer_id=$customer_id active=true}
+    {assign "isMainCustomer" 1}
+{/loop}
+
+{form name="thelia.admin.customer.update"}
+<div id="main_customer_checkbox">
+{form_field field="main_customer_checkbox"}
+    <div class="form-group">
+        <div class="checkbox">
+            <label for="{$label_attr.for}" class="control-label">
+                <input type="checkbox" name="{$name}" id="{$id}" {if $isMainCustomer}checked{/if} >{$label}
+            </label>
+        </div>
+    </div>
+{/form_field}
+</div>
+{/form}
+
+
+<script>
+    $('<div id="insert_main_customer_checkbox"></div>').insertAfter($("#password").parent());
+    $("#main_customer_checkbox").appendTo("#insert_main_customer_checkbox")
+</script>

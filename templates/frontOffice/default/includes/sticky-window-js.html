@@ -1,0 +1,80 @@
+<script>
+    {if $selectedSubCustomerId}
+        selectSubCustomer({$selectedSubCustomerId}, "{$subCustomerTitle}");
+    {/if}
+    
+    {if $loginSubCustomerId}
+        setSubCustomerLayout();
+    {/if}
+
+
+    $(".select_sub_order").on("click", function () {
+        const subCustomerId = $(this).attr("data-id");
+
+        selectSubCustomer(subCustomerId, $(this).text());
+    });
+
+    $("#group-order-home").on("click", function () {
+        $("#group-order-cart-title").hide();
+        $("#group-order-cart-body").hide();
+        $("#group-order-main-body").show();
+        $("#group-order-main-title").show();
+
+        $.ajax('/module/groupOrder/goHome')
+    });
+
+    function selectSubCustomer(subCustomerId, title) {
+        $("#group-order-main-title").hide();
+        $("#group-order-main-body").hide();
+        $("#group-order-cart-title").show();
+        $("#group-order-cart-body").show();
+        if(title){
+            $("#sub-customer-name").text(title);
+        }
+
+        $.getJSON('/module/groupOrder/getSubCustomerCart',{
+            sub_customer_id: subCustomerId
+        }).done(function (json) {
+            const userCart = $("#sub-user"+subCustomerId).parent().find(".CartManagerPreview-user-cart");
+            userCart.empty();
+            console.log(json);
+            json.cartItems.forEach(function (cartItem) {
+                userCart.append(
+                    "<li>" +
+                    "<div>" + cartItem.title + "</div>" +
+                    "<div>" + cartItem.price + "</div>" +
+                    "<div> x" + cartItem.quantity + "</div>" +
+                    "</li>"
+                );
+            });
+            if (json.cartItems.length === 0){
+                console.log("aaaaa");
+                userCart.append(
+                    "<li>" +
+                    "<div>" + "{intl l="Empty" d="grouporder.fo.default"}" + "</div>" +
+                    "</li>"
+                );
+            }
+        })
+    }
+    
+    function setSubCustomerLayout() {
+        $(".register").parent().hide();
+        const login = $(".login").parent();
+
+        $(
+            '<li>' +
+            '<a href="'+ '{url path="/logout/sub-customer"}' + '" class="logout">' + '{intl l="Logout" d="grouporder.fo.default"}' + '</a>' +
+            '</li>'
+        ).insertAfter(login);
+        login.hide();
+
+
+        $('.table-cart tbody tr:last').hide();
+        $('.table-cart tr:last').prev().hide();
+
+        const cartNext = $('#cart').find("> .btn-primary");
+        $('<a href="{url path="/cart/sub-customer"}" class="btn btn-primary pull-right">{intl l="Validate Cart" d="grouporder.fo.default"}</a>').insertAfter(cartNext);
+        cartNext.hide();
+    }
+</script>
