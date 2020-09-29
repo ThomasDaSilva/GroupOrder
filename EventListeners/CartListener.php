@@ -59,12 +59,7 @@ class CartListener implements EventSubscriberInterface
                 ->filterByProductSaleElementsId($event->getProductSaleElementsId())
                 ->find();
 
-            $foundItemsIds = [];
-
-            /** @var CartItem $foundItem */
-            foreach ($foundItems as $foundItem) {
-                $foundItemsIds[] = $foundItem->getId();
-            }
+            $foundItemsIds = array_map(static function($item) {return $item->getId();}, $foundItems);
 
             if ($foundItemsIds) {
                 $groupOrderCartItem = GroupOrderCartItemQuery::create()->filterBySubCustomerId($subCustomerId)->filterByCartItemId($foundItemsIds)->findOne();
@@ -102,7 +97,7 @@ class CartListener implements EventSubscriberInterface
     public function addOrderItem(OrderProductEvent $event)
     {
         /** @var GroupOrderMainCustomer $mainCustomer */
-        if ($mainCustomer = GroupOrderMainCustomerQuery::create()->filterByCustomerId($this->getRequest()->getSession()->getCustomerUser()->getId())->findOne()) {
+        if ($mainCustomer = $this->getRequest()->getSession()->get("CurrentUserIsMainCustomer")) {
             if (!$groupOrder = GroupOrderQuery::create()->filterByOrderId($event->getOrder()->getId())->findOne()) {
                 $groupOrder = new GroupOrder();
                 $groupOrder
@@ -162,11 +157,11 @@ class CartListener implements EventSubscriberInterface
     {
         return [
             TheliaEvents::CART_ADDITEM => [
-                ['isNew', 129],
-                ['addItem', 127]
+                ['isNew', 150],
+                ['addItem', 110]
             ],
-            TheliaEvents::CART_DELETEITEM => ['deleteItem', 129],
-            TheliaEvents::ORDER_PRODUCT_AFTER_CREATE => ['addOrderItem', 127]
+            TheliaEvents::CART_DELETEITEM => ['deleteItem', 150],
+            TheliaEvents::ORDER_PRODUCT_AFTER_CREATE => ['addOrderItem', 110]
         ];
     }
 

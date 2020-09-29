@@ -27,8 +27,7 @@ class CustomerController extends BaseFrontController
     public function createOrUpdateSubCustomer()
     {
         $subCustomerId = $this->getRequest()->get('id');
-        $customerId = $this->getRequest()->getSession()->getCustomerUser()->getId();
-        $mainCustomer = GroupOrderMainCustomerQuery::create()->filterByCustomerId($customerId)->findOne();
+        $mainCustomer = $this->getRequest()->getSession()->get("CurrentUserIsMainCustomer");
         try {
             $form = $this->validateForm(new SubCustomerForm($this->getRequest()));
             $plainPassword = $form->get('password')->getData();

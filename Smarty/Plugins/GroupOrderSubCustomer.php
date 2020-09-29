@@ -36,14 +36,16 @@ class GroupOrderSubCustomer extends AbstractSmartyPlugin
 
         $subCustomer = null;
 
-        if ($cartItemId) {
-            $subCustomer = GroupOrderCartItemQuery::create()->filterByCartItemId($cartItemId)->findOne()->getGroupOrderSubCustomer();
+        if ($cartItemId && $cartItem = GroupOrderCartItemQuery::create()->filterByCartItemId($cartItemId)->findOne()){
+            $subCustomer = $cartItem->getGroupOrderSubCustomer();
         }
 
-        if ($orderProductId) {
-            $subCustomer = GroupOrderProductQuery::create()->filterByOrderProductId($orderProductId)->findOne()->getGroupOrderSubOrder()->getGroupOrderSubCustomer();
+        if (!$subCustomer && $orderProductId && $orderProduct = GroupOrderProductQuery::create()->filterByOrderProductId($orderProductId)->findOne()) {
+            $subCustomer = $orderProduct->getGroupOrderSubOrder()->getGroupOrderSubCustomer();
         }
 
-        $smarty->assign('subCustomerName', $subCustomer->getFirstName() . " " . $subCustomer->getLastName());
+        if ($subCustomer){
+            $smarty->assign('subCustomerName', $subCustomer->getFirstName() . " " . $subCustomer->getLastName());
+        }
     }
 }

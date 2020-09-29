@@ -6,7 +6,7 @@
     <table name="group_order_main_customer" namespace="GroupOrder\Model">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
         <column name="customer_id" required="true" type="INTEGER" />
-        <column name="active" required="false" type="INTEGER" />
+        <column name="active" required="false" type="TINYINT" default="1" />
 
         <foreign-key foreignTable="customer" name="fk_group_order_customer_id" onDelete="RESTRICT" onUpdate="RESTRICT">
             <reference foreign="id" local="customer_id" />

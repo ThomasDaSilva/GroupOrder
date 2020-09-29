@@ -10,6 +10,7 @@ namespace GroupOrder\Hook\Front;
 
 
 use GroupOrder\GroupOrder;
+use GroupOrder\Model\GroupOrderMainCustomer;
 use GroupOrder\Model\GroupOrderMainCustomerQuery;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
 use Thelia\Core\Event\Hook\HookRenderBlockEvent;
@@ -26,14 +27,8 @@ class FrontHook extends BaseHook
 
     public function onAccountAdditional(HookRenderBlockEvent $event)
     {
-        $customerId = null;
-        if ($customer = $this->getRequest()->getSession()->getCustomerUser()) {
-            $customerId = $customer->getId();
-        }
-        if ($mainCustomer = GroupOrderMainCustomerQuery::create()
-            ->filterByCustomerId($customerId)
-            ->filterByActive(1)
-            ->findOne()) {
+        /** @var GroupOrderMainCustomer $mainCustomer */
+        if ($mainCustomer = $this->getRequest()->getSession()->get("CurrentUserIsMainCustomer")) {
             $event->add([
                 'id' => 'sub-customers',
                 'title' => Translator::getInstance()->trans("My Sub Customers", [], GroupOrder::DOMAIN_NAME),
@@ -51,14 +46,8 @@ class FrontHook extends BaseHook
 
     public function onMainBodyBottom(HookRenderEvent $event)
     {
-        $customerId = null;
-        if ($customer = $this->getRequest()->getSession()->getCustomerUser()) {
-            $customerId = $customer->getId();
-        }
-        if ($mainCustomer = GroupOrderMainCustomerQuery::create()
-            ->filterByCustomerId($customerId)
-            ->filterByActive(1)
-            ->findOne()) {
+        /** @var GroupOrderMainCustomer $mainCustomer */
+        if ($mainCustomer = $this->getRequest()->getSession()->get("CurrentUserIsMainCustomer")) {
 
             $event->add($this->render("sticky-window.html", [
                 "mainCustomerId" => $mainCustomer->getId()

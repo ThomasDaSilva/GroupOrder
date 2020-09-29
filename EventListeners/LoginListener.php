@@ -36,12 +36,24 @@ class LoginListener implements EventSubscriberInterface
             $cart = CartQuery::create()->filterByCustomerId($event->getCustomer()->getId())->findOne()) {
             $this->getRequest()->getSession()->setSessionCart($cart);
         }
+
+        if ($mainCustomer = GroupOrderMainCustomerQuery::create()->filterByCustomerId($event->getCustomer()->getId())->findOne()){
+            $this->getRequest()->getSession()->set('CurrentUserIsMainCustomer', $mainCustomer);
+        }
+    }
+
+    public function logout(DefaultActionEvent $event)
+    {
+        if ($this->getRequest()->getSession()->get('CurrentUserIsMainCustomer')){
+            $this->getRequest()->getSession()->set('CurrentUserIsMainCustomer', null);
+        }
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            TheliaEvents::CUSTOMER_LOGIN => ["login", 128]
+            TheliaEvents::CUSTOMER_LOGIN => ["login", 128],
+            TheliaEvents::CUSTOMER_LOGOUT => ["logout", 110]
         ];
     }
 }
