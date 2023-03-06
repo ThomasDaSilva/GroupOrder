@@ -123,7 +123,7 @@ class SubCustomerForm extends BaseForm
             ));
     }
 
-    public function getName()
+    public static function getName()
     {
         return 'group_order_sub_customer';
     }

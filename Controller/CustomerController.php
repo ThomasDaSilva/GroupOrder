@@ -12,24 +12,32 @@ namespace GroupOrder\Controller;
 use GroupOrder\Form\SubCustomerForm;
 use GroupOrder\Model\GroupOrderCartItem;
 use GroupOrder\Model\GroupOrderCartItemQuery;
-use GroupOrder\Model\GroupOrderMainCustomerQuery;
 use GroupOrder\Model\GroupOrderSubCustomer;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Model\AddressQuery;
 use Thelia\Model\CustomerQuery;
 use Thelia\TaxEngine\Calculator;
 use Thelia\Tools\MoneyFormat;
 use Thelia\Tools\URL;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("", name="group_order_customer_")
+ */
 class CustomerController extends BaseFrontController
 {
-    public function createOrUpdateSubCustomer()
+    /**
+     * @Route("/GroupOrder/SubCustomer/CreateOrUpdate", name="create")
+     * @Route("/GroupOrder/SubCustomer/CreateOrUpdate/{id}", name="update")
+     */
+    public function createOrUpdateSubCustomer(RequestStack $requestStack)
     {
-        $subCustomerId = $this->getRequest()->get('id');
-        $mainCustomer = $this->getRequest()->getSession()->get("CurrentUserIsMainCustomer");
+        $subCustomerId = $requestStack->getCurrentRequest()->get('id');
+        $mainCustomer = $requestStack->getCurrentRequest()->getSession()->get("CurrentUserIsMainCustomer");
         try {
-            $form = $this->validateForm(new SubCustomerForm($this->getRequest()));
+            $form = $this->validateForm($this->createForm(SubCustomerForm::getName()));
             $plainPassword = $form->get('password')->getData();
             $password = password_hash($plainPassword, PASSWORD_BCRYPT);
 
@@ -65,31 +73,34 @@ class CustomerController extends BaseFrontController
     }
 
     /**
+     * @Route("/module/groupOrder/getSubCustomerCart", name="get_sub_customer_cart")
      * @return \Thelia\Core\HttpFoundation\Response
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSubCustomerCart()
+    public function getSubCustomerCart(RequestStack $requestStack)
     {
-        $subCustomerId = $this->getRequest()->get('sub_customer_id');
+        $subCustomerId = $requestStack->getCurrentRequest()->get('sub_customer_id');
 
-        $this->getRequest()->getSession()->set('GroupOrderSelectedSubCustomer', null);
+        $requestStack->getCurrentRequest()->getSession()->set('GroupOrderSelectedSubCustomer', null);
 
         $subCustomerCartItems = GroupOrderCartItemQuery::create()->filterBySubCustomerId($subCustomerId)->find();
         $calc = new Calculator();
         $cartItems = [];
 
-        $lang = $this->getRequest()->getSession()->getLang();
+        $lang = $requestStack->getCurrentRequest()->getSession()->getLang();
         /** @var GroupOrderCartItem $subCustomerCartItem */
         foreach ($subCustomerCartItems as $subCustomerCartItem) {
             $product = $subCustomerCartItem->getCartItem()->getProduct();
-            $customer = CustomerQuery::create()->filterById($this->getRequest()->getSession()->getCustomerUser()->getId())->findOne();
+            $customer = CustomerQuery::create()
+                ->filterById($requestStack->getCurrentRequest()->getSession()->getCustomerUser()->getId())->findOne();
             $address = AddressQuery::create()->filterByCustomerId($customer->getId())->findOne();
             $calc->load($product, $address->getCountry());
             $cartItem = $subCustomerCartItem->getCartItem();
             $product = $cartItem->getProductSaleElements()->getProduct();
             $cartItems[] = [
                 'quantity' => $cartItem->getQuantity(),
-                'price' => MoneyFormat::getInstance($this->getRequest())->formatByCurrency($calc->getTaxedPrice($cartItem->getPrice())),
+                'price' => MoneyFormat::getInstance($requestStack->getCurrentRequest())
+                    ->formatByCurrency($calc->getTaxedPrice($cartItem->getPrice())),
                 'title' => $product->setLocale($lang->getLocale())->getTitle(),
             ];
         }
@@ -98,13 +109,16 @@ class CustomerController extends BaseFrontController
             "cartItems" => $cartItems
         ];
 
-        $this->getRequest()->getSession()->set('GroupOrderSelectedSubCustomer', $subCustomerId);
+        $requestStack->getCurrentRequest()->getSession()->set('GroupOrderSelectedSubCustomer', $subCustomerId);
 
         return $this->jsonResponse(json_encode($response));
     }
 
-    public function goHome()
+    /**
+     * @Route("/module/groupOrder/goHome", name="go_home")
+     */
+    public function goHome(RequestStack $requestStack)
     {
-        $this->getRequest()->getSession()->set('GroupOrderSelectedSubCustomer', null);
+        $requestStack->getCurrentRequest()->getSession()->set('GroupOrderSelectedSubCustomer', null);
     }
 }

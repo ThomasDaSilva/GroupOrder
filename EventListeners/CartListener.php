@@ -25,7 +25,6 @@ use Thelia\Core\Event\Cart\CartEvent;
 use Thelia\Core\Event\Order\OrderProductEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\HttpFoundation\Request;
-use Thelia\Model\CartItem;
 use Thelia\Model\CartItemQuery;
 
 class CartListener implements EventSubscriberInterface

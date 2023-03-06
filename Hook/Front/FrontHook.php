@@ -11,7 +11,6 @@ namespace GroupOrder\Hook\Front;
 
 use GroupOrder\GroupOrder;
 use GroupOrder\Model\GroupOrderMainCustomer;
-use GroupOrder\Model\GroupOrderMainCustomerQuery;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
 use Thelia\Core\Event\Hook\HookRenderBlockEvent;
 use Thelia\Core\Event\Hook\HookRenderEvent;

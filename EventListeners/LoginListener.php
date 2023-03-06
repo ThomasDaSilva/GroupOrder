@@ -11,6 +11,7 @@ namespace GroupOrder\EventListeners;
 use GroupOrder\Model\GroupOrderMainCustomerQuery;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Thelia\Core\Event\Customer\CustomerLoginEvent;
+use Thelia\Core\Event\DefaultActionEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\HttpFoundation\Request;
 use Thelia\Model\CartQuery;

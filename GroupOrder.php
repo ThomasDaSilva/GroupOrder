@@ -14,6 +14,7 @@ namespace GroupOrder;
 
 use GroupOrder\Model\GroupOrderQuery;
 use Propel\Runtime\Connection\ConnectionInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symfony\Component\Finder\Finder;
 use Thelia\Install\Database;
 use Thelia\Module\BaseModule;
@@ -29,7 +30,7 @@ class GroupOrder extends BaseModule
      *
      * Have fun !
      */
-    public function postActivation(ConnectionInterface $con = null)
+    public function postActivation(ConnectionInterface $con = null): void
     {
         try {
             GroupOrderQuery::create()->findOne();
@@ -39,7 +40,7 @@ class GroupOrder extends BaseModule
         }
     }
 
-    public function update($currentVersion, $newVersion, ConnectionInterface $con = null)
+    public function update($currentVersion, $newVersion, ConnectionInterface $con = null): void
     {
         $sqlToExecute = [];
         $finder = new Finder();

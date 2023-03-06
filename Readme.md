@@ -14,7 +14,7 @@ This Module allow you to create group orders
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/group-order-module:~0.0.1
+composer require thelia/group-order-module:~1.0.0
 ```
 
 ## Usage
