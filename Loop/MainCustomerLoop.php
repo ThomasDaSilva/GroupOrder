@@ -47,6 +47,18 @@ class MainCustomerLoop extends BaseLoop implements PropelSearchLoopInterface
 
         if ($customerIds = $this->getCustomerId()) {
             $query->filterByCustomerId($customerIds);
+        } else {
+            $theliaCustomer = $this->getCurrentRequest()->getSession()->getCustomerUser();
+
+            if ($theliaCustomer) {
+                $mainCustomer = GroupOrderMainCustomerQuery::create()
+                    ->filterByCustomerId($theliaCustomer->getId())
+                    ->findOne();
+
+                if($mainCustomer){
+                    $query->filterByCustomerId($mainCustomer->getCustomerId());
+                }
+            }
         }
 
         if ($this->getActive() === true) {
@@ -63,7 +75,8 @@ class MainCustomerLoop extends BaseLoop implements PropelSearchLoopInterface
             $loopResultRow = new LoopResultRow($mainCustomer);
             $loopResultRow
                 ->set("ID", $mainCustomer->getId())
-                ->set("CUSTOMER_ID", $mainCustomer->getCustomerId());
+                ->set("CUSTOMER_ID", $mainCustomer->getCustomerId())
+                ->set("GROUP_CODE", $mainCustomer->getCode());
 
             $loopResult->addRow($loopResultRow);
         }

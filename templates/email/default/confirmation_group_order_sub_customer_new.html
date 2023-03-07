@@ -1,0 +1,25 @@
+{extends file="email-layout.tpl"}
+
+{* Do not provide a "Open in browser" link  *}
+{block name="browser"}{/block}
+{* No big image header *}
+{block name="image-header"}{/block}
+{* No logo header *}
+{block name="logo-header"}{/block}
+{* No pre-header *}
+{block name="pre-header"}{/block}ConfigQuery::getStoreEmail(),
+
+{* Subject  *}
+{block name="email-subject"}{intl l="Création de compte commande groupée {config key="store_name"}"}}{/block}
+
+{* Title  *}
+{block name="email-title"}{intl l="Création de compte commande groupée {config key="store_name"}"}{/block}
+
+{* Content  *}
+{block name="email-content"}
+  <p>{intl l="Bonjour %firstname %lastname," firstname=$firstname lastname=$lastname}</p>
+  <p>{intl l="Votre compte a été crée et rattaché à un système de commandes groupées"}</p>
+  <p>{intl l="Connecter vous sur :"}<a>cette adresse</a> {intl l="en vous munissant de votre code groupe, de votre login et votre mot de passe"}</p>
+  <p>{intl l="Votre code groupe :"} <strong>{$code}</strong></p>
+  <p>{intl l="Votre login :"} <strong>{$login}</strong></p>
+{/block}

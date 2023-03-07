@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 21/09/2020
- * Time: 10:15
- */
 
 namespace GroupOrder\Hook\Front;
-
 
 use GroupOrder\GroupOrder;
 use GroupOrder\Model\GroupOrderMainCustomer;

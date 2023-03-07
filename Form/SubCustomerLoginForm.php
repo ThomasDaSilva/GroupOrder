@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 25/09/2020
- * Time: 15:00
- */
 
 namespace GroupOrder\Form;
-
 
 use GroupOrder\GroupOrder;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -21,26 +14,40 @@ class SubCustomerLoginForm extends BaseForm
     protected function buildForm()
     {
         $this->getFormBuilder()
-            ->add("login", TextType::class, array(
+            ->add("login", TextType::class, [
                 "required" => true,
                 "label" => Translator::getInstance()->trans("Login", [], GroupOrder::DOMAIN_NAME),
-                "constraints" => array(
+                "constraints" => [
                     new NotBlank()
-                ),
-                "label_attr" => array(
+                ],
+                "label_attr" => [
                     "for" => "login",
-                ),
-            ))
-            ->add("password", PasswordType::class, array(
+                ],
+            ])
+            ->add(
+                'group_code',
+                TextType::class,
+                [
+                    "required" => true,
+                    'label' => $this->translator->trans('Votre code groupe', [], GroupOrder::DOMAIN_NAME),
+                    'label_attr' => [
+                        'for' => $this->getName() . '-label'
+                    ],
+                    'constraints' => [
+                        new NotBlank
+                    ]
+
+                ])
+            ->add("password", PasswordType::class, [
                 "required" => true,
                 "label" => Translator::getInstance()->trans("Password", [], GroupOrder::DOMAIN_NAME),
-                "constraints" => array(
+                "constraints" => [
                     new NotBlank()
-                ),
-                "label_attr" => array(
+                ],
+                "label_attr" => [
                     "for" => "password",
-                ),
-            ));
+                ],
+            ]);
     }
 
     public static function getName()

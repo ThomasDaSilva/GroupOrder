@@ -29,7 +29,8 @@ class SubOrderLoop extends BaseLoop implements PropelSearchLoopInterface
         return new ArgumentCollection(
             Argument::createIntListTypeArgument('id'),
             Argument::createIntListTypeArgument('sub_customer'),
-            Argument::createIntListTypeArgument('group_order')
+            Argument::createIntListTypeArgument('group_order'),
+            Argument::createIntListTypeArgument('main_customer')
         );
     }
 
@@ -47,6 +48,15 @@ class SubOrderLoop extends BaseLoop implements PropelSearchLoopInterface
 
         if ($groupOrder = $this->getGroupOrder()){
             $query->filterByGroupOrderId($groupOrder);
+        }
+
+        if ($mainCustomer = $this->getMainCustomer()){
+            $query
+                ->useGroupOrderQuery()
+                ->filterByMainCustomerId($mainCustomer)
+                ->groupByOrderId()
+                ->endUse()
+            ;
         }
 
         return $query;
@@ -85,6 +95,7 @@ class SubOrderLoop extends BaseLoop implements PropelSearchLoopInterface
                 ->set("PRODUCT_IDS", $product_ids)
                 ->set("ORDER_NUMBER", $order->getRef())
                 ->set("DATE", $order->getCreatedAt())
+                ->set("ORDER_STATUS", $order->getStatusId())
                 ->set("AMOUNT", $amount)
             ;
 

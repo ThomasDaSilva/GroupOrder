@@ -6,6 +6,8 @@
     <table name="group_order_main_customer" namespace="GroupOrder\Model">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
         <column name="customer_id" required="true" type="INTEGER" />
+        <column name="code" required="false" type="VARCHAR" />
+        <column name="type" required="true" type="INTEGER" default="1" />
         <column name="active" required="false" type="TINYINT" default="1" />
 
         <foreign-key foreignTable="customer" name="fk_group_order_customer_id" onDelete="RESTRICT" onUpdate="RESTRICT">
@@ -83,6 +85,7 @@
     <table name="group_order_cart_item" namespace="GroupOrder\Model">
         <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
         <column name="sub_customer_id" required="true" type="INTEGER" />
+        <column name="group_order_cart_id" required="true" type="INTEGER" />
         <column name="cart_item_id" required="true" type="INTEGER" />
 
         <foreign-key foreignTable="group_order_sub_customer" name="fk_group_order_cart_sub_customer_id" onDelete="RESTRICT" onUpdate="RESTRICT">
@@ -93,6 +96,27 @@
             <reference foreign="id" local="cart_item_id" />
         </foreign-key>
 
+        <foreign-key foreignTable="group_order_cart" name="fk_group_order_cart_id" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference foreign="id" local="group_order_cart_id" />
+        </foreign-key>
     </table>
+
+    <table name="group_order_cart" namespace="GroupOrder\Model">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="main_customer_id" required="true" type="INTEGER" />
+        <column name="cart_id" required="true" type="INTEGER" />
+        <column name="title" required="true" type="VARCHAR" />
+        <column name="status" required="true" type="INTEGER" default="1" />
+        <column name="date_end" required="false" type="DATE" default="NULL"/>
+
+        <foreign-key foreignTable="group_order_main_customer" name="fk_group_order_cart_main_customer_id" onDelete="RESTRICT" onUpdate="RESTRICT">
+            <reference foreign="id" local="main_customer_id" />
+        </foreign-key>
+
+        <foreign-key foreignTable="cart" name="fk_group_order_cart_cart_id" onDelete="RESTRICT" onUpdate="RESTRICT">
+            <reference foreign="id" local="cart_id" />
+        </foreign-key>
+    </table>
+
     <external-schema filename="local/config/schema.xml" referenceOnly="true" />
 </database>

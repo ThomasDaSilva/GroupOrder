@@ -17,6 +17,9 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symfony\Component\Finder\Finder;
 use Thelia\Install\Database;
+use Thelia\Model\ConfigQuery;
+use Thelia\Model\Message;
+use Thelia\Model\MessageQuery;
 use Thelia\Module\BaseModule;
 
 class GroupOrder extends BaseModule
@@ -24,6 +27,9 @@ class GroupOrder extends BaseModule
     /** @var string */
     const DOMAIN_NAME = 'grouporder';
 
+    const EMAIL_MESSAGE_NAME = 'confirmation_group_order_main_customer';
+
+    const EMAIL_CREATE_SUB_CUTOMER_NAME = 'confirmation_group_order_sub_customer_new';
     /*
      * You may now override BaseModuleInterface methods, such as:
      * install, destroy, preActivation, postActivation, preDeactivation, postDeactivation
@@ -38,6 +44,35 @@ class GroupOrder extends BaseModule
             $database = new Database($con);
             $database->insertSql(null, [__DIR__ . "/Config/thelia.sql"]);
         }
+
+        if (null === MessageQuery::create()->findOneByName(self::EMAIL_MESSAGE_NAME)) {
+            $message = new Message();
+
+            $email_templates_dir = __DIR__ . DS . 'I18n' . DS . 'email-templates' . DS;
+
+            $message
+                ->setName(self::EMAIL_MESSAGE_NAME)
+                ->setHtmlTemplateFileName(self::EMAIL_MESSAGE_NAME . '.html')
+                ->setLocale('fr_FR')
+                ->setTitle(self::EMAIL_MESSAGE_NAME)
+                ->setSubject('Commande groupée '.ConfigQuery::getStoreName())
+                ->save();
+
+        }
+
+        if (null === MessageQuery::create()->findOneByName(self::EMAIL_CREATE_SUB_CUTOMER_NAME)) {
+            $message = new Message();
+
+            $email_templates_dir = __DIR__ . DS . 'I18n' . DS . 'email-templates' . DS;
+
+            $message
+                ->setName(self::EMAIL_CREATE_SUB_CUTOMER_NAME)
+                ->setHtmlTemplateFileName(self::EMAIL_CREATE_SUB_CUTOMER_NAME . '.html')
+                ->setLocale('fr_FR')
+                ->setTitle(self::EMAIL_CREATE_SUB_CUTOMER_NAME)
+                ->setSubject('Commande groupée '.ConfigQuery::getStoreName())
+                ->save();
+        }
     }
 
     public function update($currentVersion, $newVersion, ConnectionInterface $con = null): void
@@ -51,7 +86,7 @@ class GroupOrder extends BaseModule
         };
 
         $files = $finder->name('*.sql')
-            ->in(__DIR__ . "/Config/Update/")
+            ->in(__DIR__ . "/Config/update/")
             ->sort($sort);
 
         foreach ($files as $file) {

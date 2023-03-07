@@ -1,12 +1,23 @@
 <script>
     {if $selectedSubCustomerId}
-        selectSubCustomer({$selectedSubCustomerId}, "{$subCustomerTitle}");
-    {/if}
-    
-    {if $loginSubCustomerId}
-        setSubCustomerLayout();
+    //selectSubCustomer({$selectedSubCustomerId}, "{$subCustomerTitle}");
     {/if}
 
+    {if $loginSubCustomerId}
+    setSubCustomerLayout();
+    {/if}
+
+    const toggles = document.querySelectorAll("[data-toggle-cartManager]");
+
+    if (toggles) {
+        for (const toggle of toggles) {
+            toggle.addEventListener("click", () => {
+                document
+                    .querySelector(".CartManagerPreview")
+                    .classList.toggle("CartManagerPreview--visible");
+            });
+        }
+    }
 
     $(".select_sub_order").on("click", function () {
         const subCustomerId = $(this).attr("data-id");
@@ -28,44 +39,47 @@
         $("#group-order-main-body").hide();
         $("#group-order-cart-title").show();
         $("#group-order-cart-body").show();
-        if(title){
+        if (title) {
             $("#sub-customer-name").text(title);
         }
 
-        $.getJSON('/module/groupOrder/getSubCustomerCart',{
+        $.getJSON('/module/groupOrder/getSubCustomerCart', {
             sub_customer_id: subCustomerId
         }).done(function (json) {
-            const userCart = $("#sub-user"+subCustomerId).parent().find(".CartManagerPreview-user-cart");
+            const userCart = $("#CartManagerPreview-user" + subCustomerId + "-cart");
+
             userCart.empty();
-            console.log(json);
             json.cartItems.forEach(function (cartItem) {
                 userCart.append(
-                    "<li>" +
-                    "<div>" + cartItem.title + "</div>" +
-                    "<div>" + cartItem.price + "</div>" +
-                    "<div> x" + cartItem.quantity + "</div>" +
-                    "</li>"
+                    "<div class='col-12'><div class='row'>" +
+                    "<div class='col-7'>" + cartItem.title + "<br><strong>" + cartItem.format + "</strong></div>" +
+                    "<div class='col-2'>" + cartItem.price + "</div>" +
+                    "<div class='col-1'> x" + cartItem.quantity + "</div>" +
+                    "<div class='col-2'>" + cartItem.total + "</div>" +
+                    "</div></div>"
                 );
             });
-            if (json.cartItems.length === 0){
-                console.log("aaaaa");
+            if (json.cartItems.length === 0) {
                 userCart.append(
-                    "<li>" +
+                    "<tr><td>" +
                     "<div>" + "{intl l="Empty" d="grouporder.fo.default"}" + "</div>" +
-                    "</li>"
+                    "</td></tr>"
                 );
             }
         })
     }
-    
+
     function setSubCustomerLayout() {
         $(".register").parent().hide();
         const login = $(".login").parent();
 
         $(
-            '<li>' +
-            '<a href="'+ '{url path="/logout/sub-customer"}' + '" class="logout">' + '{intl l="Logout" d="grouporder.fo.default"}' + '</a>' +
-            '</li>'
+            '<div class="Toolbar-item navbar-customer">' +
+            '<a href="{url path="/logout/sub-customer"}" class="account has-separator">' +
+            '<span class="Toolbar-itemWrapIcon"><svg class="Toolbar-itemIcon perso"><use xlink:href="/front/assets/dist/svg/sprite.svg#perso"></use></svg></span>' +
+            '<span class="Toolbar-itemText">Deconnexion</span>' +
+            ' </a>' +
+            ' </div>'
         ).insertAfter(login);
         login.hide();
 

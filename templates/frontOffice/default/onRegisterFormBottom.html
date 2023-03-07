@@ -1,9 +1,16 @@
 {form_field field="main_customer_checkbox"}
     <div class="form-group group-newsletter clearfix">
-        <div class="control-input col-xs-11 col-sm-9 col-xs-offset-1 col-md-offset-3">
-            <div class="checkbox">
-                <label for="{$label_attr.for|default:null}" class="control-label">
-                    <input type="checkbox" name="{$name|default:null}" id="{$id|default:null}">{$label|default:null}
+        <div class="control-input col-xs-11 col-sm-11">
+            <div class="checkbox row">
+                <input class="col-1 mt-1" type="checkbox" name="{$name}" id="{$label_attr.for}">
+                <label style="font-size: 16px;" for="{$label_attr.for}" class="control-label col-11">{intl l="Je désire réaliser des commandes groupées (après validation de nos équipes)"}
+                    <br>{intl l="Ma commande contiendra des sous-totaux ainsi que des sacs personnalisés"}
+                    <br>
+                    {if {config key="laqueuille_content_tuto_group_order"}}
+                        {loop type="content" name="tuto_group_order" id={config key="laqueuille_content_tuto_group_order"}}
+                            <i><a target="_blank" href="{$URL}">{intl l='lire notre documentation relative à ce type de commande'}</i>
+                        {/loop}
+                    {/if}
                 </label>
             </div>
         </div>

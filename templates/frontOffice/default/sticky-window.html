@@ -1,12 +1,35 @@
+<div id="CartManagerPreview-toggle" data-toggle-cartManager>
+    <svg
+            xmlns="http://www.w3.org/2000/svg"
+            data-name="Layer 1"
+            viewBox="0 0 512 640"
+            x="0px"
+            y="0px"
+    >
+        <title>Artboard 51</title>
+        <path
+                d="M384.51,475.777a51.092,51.092,0,1,0-51.092-51.091A51.15,51.15,0,0,0,384.51,475.777Zm0-70.183a19.092,19.092,0,1,1-19.092,19.092A19.113,19.113,0,0,1,384.51,405.594Z"
+        />
+        <path
+                d="M481.736,116h-373L98.957,49.865A16.188,16.188,0,0,0,83.13,36H14V68H69.327l40.085,270.33A16.014,16.014,0,0,0,125.239,352H439.626A15.916,15.916,0,0,0,455.3,339.323l42.11-204.342A15.8,15.8,0,0,0,481.736,116ZM426.587,320H139.042L113.478,148H462.1Z"
+        />
+        <path
+                d="M167.316,373.607a51.092,51.092,0,0,0,1.162,102.17q.61,0,1.225-.013a51.092,51.092,0,0,0-2.387-102.157Zm15.006,64.259A19.092,19.092,0,1,1,168.064,405.6c.153,0,.306-.006.458-.006a19.091,19.091,0,0,1,13.8,32.272Z"
+        />
+    </svg>
+</div>
 <div class="CartManagerPreview">
-    {loop type="group_order_sub_customer" name="sub_customer_sticky_window" main_customer=$mainCustomerId|default:null}
-    <div class="CartManagerPreview-user">
-        <label for="sub-user{$ID|default:null}" class="CartManagerPreview-user-name">
-            <div>{$FIRSTNAME|default:null} {$LASTNAME|default:null}</div>
-        </label>
-        <input type="radio" name="user" id="sub-user{$ID|default:null}" class="select_sub_order" data-id="{$ID|default:null}"/>
-        <ul class="CartManagerPreview-user-cart">
-        </ul>
+    <div class="CartManagerPreview-close" data-toggle-cartManager>{intl l="Fermer"}</div>
+    <div class="row">
+        {loop type="group_order_sub_customer" name="sub_customer_sticky_window" main_customer=$mainCustomerId front="1"}
+            <div class="col-12 CartManagerPreview-user">
+                    <label for="sub-user{$ID|default:null}" class="CartManagerPreview-user-name">
+                        <div>{$FIRSTNAME|default:null} {$LASTNAME|default:null}</div>
+                    </label>
+                    <input type="radio" name="user" id="sub-user{$ID|default:null}" class="select_sub_order" data-id="{$ID|default:null}"/>
+                    <div class="row CartManagerPreview-user-cart" id="CartManagerPreview-user{$ID}-cart">
+                    </div>
+            </div>
+        {/loop}
     </div>
-    {/loop}
 </div>

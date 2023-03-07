@@ -1,21 +1,42 @@
 <script type="text/javascript">
-    $('#show_create_sub_customer').on("click", function () {
-        $("#create_sub_customer").show();
-    });
+    const show_create_sub_customer = document.getElementById('show_create_sub_customer');
+    const hide_create_sub_customer = document.querySelectorAll('.hide_create_sub_customer');
+    const create_sub_customer = document.getElementById('create_sub_customer');
+    const show_update_sub_customer = document.querySelectorAll('.show_update_sub_customer');
+    const hide_update_sub_customer = document.querySelectorAll('.hide_update_sub_customer');
 
-    $('.hide_create_sub_customer').on("click", function () {
-        $("#create_sub_customer").hide();
-    });
+    if (show_create_sub_customer) {
+        show_create_sub_customer.addEventListener("click", function () {
+            create_sub_customer.style.display = 'block';
+        });
+    }
 
-    $('.show_update_sub_customer').on("click", function () {
-        const id = $(this).attr("data-id");
-        console.log(id);
-        $("#update_sub_customer_" + id).show();
-    });
+    if (hide_create_sub_customer) {
+        for (const element of hide_create_sub_customer) {
+            element.addEventListener("click", function () {
+                create_sub_customer.style.display = 'none';
+            });
+        }
+    }
 
-    $('.hide_update_sub_customer').on("click", function () {
-        const id = $(this).attr("data-id");
-        $("#update_sub_customer_" + id).hide();
-    });
+    if (show_update_sub_customer) {
+        for (const element of show_update_sub_customer) {
+            element.addEventListener("click", function () {
+
+                const id = this.dataset.id;
+                document.getElementById('update_sub_customer_' + id).style.display = 'block';
+            });
+        }
+    }
+
+    if (hide_update_sub_customer) {
+        for (const element of hide_update_sub_customer) {
+            element.addEventListener("click", function () {
+
+                const id = this.dataset.id;
+                document.getElementById('update_sub_customer_' + id).style.display = 'none';
+            });
+        }
+    }
 
 </script>

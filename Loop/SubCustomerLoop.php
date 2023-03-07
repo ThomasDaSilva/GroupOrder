@@ -9,6 +9,7 @@
 namespace GroupOrder\Loop;
 
 
+use GroupOrder\Model\GroupOrderMainCustomerQuery;
 use GroupOrder\Model\GroupOrderSubCustomer;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
 use Thelia\Core\Template\Element\BaseLoop;
@@ -25,13 +26,30 @@ class SubCustomerLoop extends BaseLoop implements PropelSearchLoopInterface
         return new ArgumentCollection(
             Argument::createIntListTypeArgument('id'),
             Argument::createIntListTypeArgument('main_customer'),
-            Argument::createAlphaNumStringTypeArgument('login')
+            Argument::createAlphaNumStringTypeArgument('login'),
+            Argument::createBooleanTypeArgument('front')
         );
     }
 
     public function buildModelCriteria()
     {
         $query = GroupOrderSubCustomerQuery::create();
+
+        $mainCustomerIds = $this->getMainCustomer();
+
+        if ($this->getFront()) {
+            $theliaCustomer = $this->getCurrentRequest()->getSession()->getCustomerUser();
+
+            if ($theliaCustomer) {
+                $mainCustomer = GroupOrderMainCustomerQuery::create()
+                    ->filterByCustomerId($theliaCustomer->getId())
+                    ->findOne();
+
+                if($mainCustomer){
+                    $mainCustomerIds = $mainCustomer->getId();
+                }
+            }
+        }
 
         if ($ids = $this->getId()) {
             $query->filterById($ids);
@@ -45,11 +63,13 @@ class SubCustomerLoop extends BaseLoop implements PropelSearchLoopInterface
             $query->filterByLogin($login);
         }
 
-        return $query;
+        return $query->orderByLastName();
     }
 
     public function parseResults(LoopResult $loopResult)
     {
+        $currentSubcustomer = $this->getCurrentRequest()->getSession()->get("GroupOrderSelectedSubCustomer");
+
         /** @var GroupOrderSubCustomer $subCustomer */
         foreach ($loopResult->getResultDataCollection() as $subCustomer) {
             $loopResultRow = new LoopResultRow($subCustomer);
@@ -65,7 +85,8 @@ class SubCustomerLoop extends BaseLoop implements PropelSearchLoopInterface
                 ->set("CITY", $subCustomer->getCity())
                 ->set("ZIPCODE", $subCustomer->getZipCode())
                 ->set("COUNTRY_ID", $subCustomer->getCountryId())
-                ->set("LOGIN", $subCustomer->getLogin());
+                ->set("LOGIN", $subCustomer->getLogin())
+                ->set("ISCURRENT_SUBCUSTOMER", ($currentSubcustomer == $subCustomer->getId()) ? 1 : 0);
 
             $loopResult->addRow($loopResultRow);
         }

@@ -1,0 +1,25 @@
+{extends file="email-layout.tpl"}
+
+{* Do not provide a "Open in browser" link  *}
+{block name="browser"}{/block}
+{* No big image header *}
+{block name="image-header"}{/block}
+{* No logo header *}
+{block name="logo-header"}{/block}
+{* No pre-header *}
+{block name="pre-header"}{/block}ConfigQuery::getStoreEmail(),
+
+{* Subject  *}
+{block name="email-subject"}{intl l="Gestion commande groupée {config key="store_name"}"}}{/block}
+
+{* Title  *}
+{block name="email-title"}{intl l="Gestion commande groupée {config key="store_name"}"}{/block}
+
+{* Content  *}
+{block name="email-content"}
+  <p>{intl l="Bonjour %firstname %lastname," firstname=$FIRSTNAME lastname=$LASTNAME}</p>
+  <p>{intl l="Votre demande de création de compte commande groupée est acceptée !"}</p>
+  <p>{intl l="Voici le code à transmettre à vos utilisateurs : "}<strong>{$code}</strong></p>
+  <p>{intl l="Votre espace personnel dédié est maintenant créé."}</p>
+  <p>{intl l="Vous pouvez parametrer vos utilisateurs, modifier vos informations personnelles à tout instant, vous avez également accès à l'historique et au suivi de vos commandes groupées."}</p>
+{/block}

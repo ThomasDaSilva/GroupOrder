@@ -8,11 +8,19 @@
         <loop name="group_order_sub_customer" class="GroupOrder\Loop\SubCustomerLoop" />
         <loop name="group_order_main_customer" class="GroupOrder\Loop\MainCustomerLoop" />
         <loop name="group_order_sub_order" class="GroupOrder\Loop\SubOrderLoop" />
+        <loop name="group_order_cart_order" class="GroupOrder\Loop\OrderCartLoop" />
+        <loop name="group_order_cart_order_status" class="GroupOrder\Loop\OrderCartStatusLoop" />
+        <loop name="group_order_product" class="GroupOrder\Loop\SubOrderProductLoop" />
+        <loop name="group_order_sub_customer_on_cart" class="GroupOrder\Loop\SubCustomerCartLoop" />
     </loops>
 
     <forms>
-        <form name="group_order_sub_customer" class="GroupOrder\Form\SubCustomerForm" />
+        <form name="group_order_sub_customer_form" class="GroupOrder\Form\SubCustomerForm" />
         <form name="group_order_sub_customer_login" class="GroupOrder\Form\SubCustomerLoginForm" />
+        <form name="order_on_cart_form" class="GroupOrder\Form\OrderOnCartForm" />
+        <form name="group_order_sub_customer_register_form" class="GroupOrder\Form\SubCustomerSelfRegisterForm" />
+        <form name="group_order_sub_customer_delete" class="GroupOrder\Form\SubCustomerDeleteForm" />
+        <form name="group_order_sub_customer_password" class="GroupOrder\Form\SubCustomerForgetPasswordForm" />
     </forms>
 
     <hooks>

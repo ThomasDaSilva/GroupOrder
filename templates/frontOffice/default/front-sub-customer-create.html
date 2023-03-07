@@ -1,0 +1,108 @@
+{extends file="layout.tpl"}
+
+{* Security *}
+{block name="no-return-functions" prepend}
+{/block}
+
+{* Body Class *}
+{block name="body-class"}{/block}
+
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+    {$breadcrumbs = [
+    ['title' => {intl l="Create sub customer"}, 'url'=>{url path="/front-sub-customer-create"}]
+    ]}
+{/block}
+
+{block name="header"}
+    <h1>{intl l="Create a Sub Customer" d="grouporder.fo.default"}</h1>
+{/block}
+
+
+{block name="main-content"}
+    <div class="Account">
+        {include file="includes/header-account.html" title={intl l="Ma gestion CSE"}}
+
+        <article class="col-main" role="main" aria-labelledby="main-label">
+            <div class="container">
+                <div class="container-form">
+                    <h2>{intl l='Création de client CSE'}</h2>
+                    <div class="col-md-12" id="create_sub_customer">
+                        {form name="group_order_sub_customer_register_form"}
+
+                        {if $currentSubCustomerID}
+                            {$firstname = $subCustomerValue['firstname']}
+                            {$lastname = $subCustomerValue['lastname']}
+                            {$login = $subCustomerValue['login']}
+                            {$password = $subCustomerValue['password']}
+                            {$email = $subCustomerValue['email']}
+                        {/if}
+
+                        {$action="/login/sub-customer"}
+                            <form action="{$action}" method="post">
+                                {form_hidden_fields}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group ">
+                                            {render_form_field field='firstname' value="$firstname"}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group ">
+                                            {render_form_field field='lastname' value="$lastname"}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group ">
+                                            {render_form_field field='login' value="$login"}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group ">
+                                            {render_form_field field='password'}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group ">
+                                            {render_form_field field='email' value="$email"}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group ">
+                                            {render_form_field field='group_code' value="$email"}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="align-center mt-4">
+                                    <button type="submit"
+                                            class="Button Button--secondary is-center">{intl l='Annuler'}</button>
+                                    <button type="submit"
+                                            class="Button Button--primary is-center"> {intl l='Sauvegarder'}</button>
+                                </div>
+                            </form>
+                        {/form}
+                    </div>
+                    {loop type="group_order_sub_customer" name="account_group_order_sub_customer_loop" main_customer=$mainCustomerId}
+                    {/loop}
+                </div>
+            </div>
+        </article>
+    </div>
+{/block}
+
+{block name="footer"}
+{/block}
+
+{block name="javascript-initialization"}
+    {hook name="order-invoice.javascript-initialization"}
+{/block}
+
+{block name="stylesheet"}
+    {hook name="order-invoice.stylesheet"}
+{/block}
+
+{block name="after-javascript-include"}
+    {hook name="order-invoice.after-javascript-include"}
+{/block}
+

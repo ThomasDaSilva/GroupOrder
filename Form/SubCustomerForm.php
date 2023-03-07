@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicolasbarbey
- * Date: 21/09/2020
- * Time: 14:02
- */
 
 namespace GroupOrder\Form;
-
 
 use GroupOrder\GroupOrder;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -34,97 +27,100 @@ class SubCustomerForm extends BaseForm
         }
 
         $this->getFormBuilder()
-            ->add("firstname", TextType::class, array(
+            ->add("type", TextType::class, [
+                "required" => false,
+            ])
+            ->add("firstname", TextType::class, [
                 "required" => true,
-                "constraints" => array(
+                "constraints" => [
                     new NotBlank()
-                ),
+                ],
                 "label" => Translator::getInstance()->trans("First Name", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "firstname",
-                ),
-            ))
-            ->add("lastname", TextType::class, array(
+                ],
+            ])
+            ->add("lastname", TextType::class, [
                 "required" => true,
-                "constraints" => array(
+                "constraints" => [
                     new NotBlank()
-                ),
+                ],
                 "label" => Translator::getInstance()->trans("Last Name", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" =>  [
                     "for" => "lastname",
-                ),
-            ))
-            ->add("login", TextType::class, array(
+                ],
+            ])
+            ->add("login", TextType::class, [
                 "required" => false,
                 "label" => Translator::getInstance()->trans("Login", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "login",
-                ),
-            ))
-            ->add("password", PasswordType::class, array(
+                ],
+            ])
+            ->add("password", PasswordType::class, [
                 "required" => false,
-                "label" => Translator::getInstance()->trans("Password", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label" => Translator::getInstance()->trans("Mot de passe de votre choix (non obligatoire)", [], GroupOrder::DOMAIN_NAME),
+                "label_attr" => [
                     "for" => "password",
-                ),
-            ))
-            ->add("email", EmailType::class, array(
+                ],
+            ])
+            ->add("email", EmailType::class, [
                 "required" => false,
-                "constraints" => array(
+                "constraints" => [
                     new Email(),
-                ),
-                "label" => Translator::getInstance()->trans("Email Address", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                ],
+                "label" => Translator::getInstance()->trans("Email (nécessaire si vous voulez recevoir les notifications)", [], GroupOrder::DOMAIN_NAME),
+                "label_attr" => [
                     "for" => "email",
-                ),
-            ))
-            ->add("address1", TextType::class, array(
+                ],
+            ])
+            ->add("address1", TextType::class, [
                 "required" => false,
                 "label" => Translator::getInstance()->trans("Street Address", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "address1",
-                ),
-            ))
-            ->add("address2", TextType::class, array(
+                ],
+            ])
+            ->add("address2", TextType::class, [
                 "label" => Translator::getInstance()->trans("Address Line 2", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "address2",
-                ),
+                ],
                 "required" => false,
-            ))
-            ->add("address3", TextType::class, array(
+            ])
+            ->add("address3", TextType::class, [
                 "label" => Translator::getInstance()->trans("Address Line 3", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "address3",
-                ),
+                ],
                 "required" => false,
-            ))
-            ->add("city", TextType::class, array(
+            ])
+            ->add("city", TextType::class, [
                 "required" => false,
                 "label" => Translator::getInstance()->trans("City", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "city",
-                ),
-            ))
-            ->add("zipcode", TextType::class, array(
+                ],
+            ])
+            ->add("zipcode", TextType::class, [
                 "required" => false,
                 "label" => Translator::getInstance()->trans("Zip code", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "zipcode",
-                ),
-            ))
-            ->add("country_id", ChoiceType::class, array(
+                ],
+            ])
+            ->add("country_id", ChoiceType::class, [
                 "required" => false,
                 "label" => Translator::getInstance()->trans("Country", [], GroupOrder::DOMAIN_NAME),
-                "label_attr" => array(
+                "label_attr" => [
                     "for" => "country",
-                ),
+                ],
                 "choices" => $choice
-            ));
+            ]);
     }
 
     public static function getName()
     {
-        return 'group_order_sub_customer';
+        return 'group_order_sub_customer_form';
     }
 }

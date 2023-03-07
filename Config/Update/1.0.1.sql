@@ -20,9 +20,9 @@ CREATE TABLE `group_order_main_customer`
     INDEX `fi_group_order_customer_id` (`customer_id`),
     CONSTRAINT `fk_group_order_customer_id`
         FOREIGN KEY (`customer_id`)
-        REFERENCES `customer` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT
+            REFERENCES `customer` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -41,14 +41,14 @@ CREATE TABLE `group_order`
     INDEX `fi_group_order_order_id` (`order_id`),
     CONSTRAINT `fk_group_order_main_customer_id`
         FOREIGN KEY (`main_customer_id`)
-        REFERENCES `group_order_main_customer` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
+            REFERENCES `group_order_main_customer` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT,
     CONSTRAINT `fk_group_order_order_id`
         FOREIGN KEY (`order_id`)
-        REFERENCES `order` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT
+            REFERENCES `order` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -77,14 +77,14 @@ CREATE TABLE `group_order_sub_customer`
     INDEX `fi_group_order_country_id` (`country_id`),
     CONSTRAINT `fk_group_order_sub_main_id`
         FOREIGN KEY (`main_customer_id`)
-        REFERENCES `group_order_main_customer` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
+            REFERENCES `group_order_main_customer` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT,
     CONSTRAINT `fk_group_order_country_id`
         FOREIGN KEY (`country_id`)
-        REFERENCES `country` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT
+            REFERENCES `country` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -103,14 +103,14 @@ CREATE TABLE `group_order_sub_order`
     INDEX `fi_group_order_sub_order_id` (`group_order_id`),
     CONSTRAINT `fk_group_order_sub_order_sub_customer_id`
         FOREIGN KEY (`sub_customer_id`)
-        REFERENCES `group_order_sub_customer` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
+            REFERENCES `group_order_sub_customer` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT,
     CONSTRAINT `fk_group_order_sub_order_id`
         FOREIGN KEY (`group_order_id`)
-        REFERENCES `group_order` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT
+            REFERENCES `group_order` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -129,14 +129,14 @@ CREATE TABLE `group_order_product`
     INDEX `fi_group_order_order_product_id` (`order_product_id`),
     CONSTRAINT `fk_group_order_product_sub_order_id`
         FOREIGN KEY (`sub_order_id`)
-        REFERENCES `group_order_sub_order` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
+            REFERENCES `group_order_sub_order` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT,
     CONSTRAINT `fk_group_order_order_product_id`
         FOREIGN KEY (`order_product_id`)
-        REFERENCES `order_product` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT
+            REFERENCES `order_product` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -157,19 +157,19 @@ CREATE TABLE `group_order_cart_item`
     INDEX `fi_group_order_cart_id` (`group_order_cart_id`),
     CONSTRAINT `fk_group_order_cart_sub_customer_id`
         FOREIGN KEY (`sub_customer_id`)
-        REFERENCES `group_order_sub_customer` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
+            REFERENCES `group_order_sub_customer` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT,
     CONSTRAINT `fk_group_order_cart_cart_item_id`
         FOREIGN KEY (`cart_item_id`)
-        REFERENCES `cart_item` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
+            REFERENCES `cart_item` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT,
     CONSTRAINT `fk_group_order_cart_id`
         FOREIGN KEY (`group_order_cart_id`)
-        REFERENCES `group_order_cart` (`id`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
+            REFERENCES `group_order_cart` (`id`)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -191,14 +191,14 @@ CREATE TABLE `group_order_cart`
     INDEX `fi_group_order_cart_cart_id` (`cart_id`),
     CONSTRAINT `fk_group_order_cart_main_customer_id`
         FOREIGN KEY (`main_customer_id`)
-        REFERENCES `group_order_main_customer` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
+            REFERENCES `group_order_main_customer` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT,
     CONSTRAINT `fk_group_order_cart_cart_id`
         FOREIGN KEY (`cart_id`)
-        REFERENCES `cart` (`id`)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT
+            REFERENCES `cart` (`id`)
+            ON UPDATE RESTRICT
+            ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

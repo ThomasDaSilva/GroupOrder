@@ -8,7 +8,8 @@
     <div class="form-group">
         <div class="checkbox">
             <label for="{$label_attr.for|default:null}" class="control-label">
-                <input type="checkbox" name="{$name|default:null}" id="{$id|default:null}" {if $isMainCustomer|default:null}checked{/if} >{$label|default:null}
+                <input type="checkbox" name="{$name|default:null}" id="{$id|default:null}" {if $isMainCustomer|default:null}checked{/if} >{intl l='Compte principal commande groupée'}
+                <a href="{url path="admin/GroupOrder/active-switch" customer_id=$customer_id|default:null}">{if $isMainCustomerActive|default:null==0}{intl l="Activer"}{else}{intl l="Désactiver"}{/if}</a>
             </label>
         </div>
     </div>

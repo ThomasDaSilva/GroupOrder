@@ -1,110 +1,110 @@
-{form name="group_order_sub_customer"}
-    <form action="{url path=$action|default:null}" method="post">
+{form name="group_order_sub_customer_form"}
+    <form action="{url path=$action}" method="post">
         {form_hidden_fields}
 
         <div class="col-md-6">
             {form_field field="firstname"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$FIRSTNAME|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$FIRSTNAME}" id="{$id}">
                 </div>
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="lastname"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$LASTNAME|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$LASTNAME}" id="{$id}">
                 </div class="form-group">
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="login"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$LOGIN|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$LOGIN}" id="{$id}">
                 </div class="form-group">
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="password"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="password" class="form-control" name="{$name|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="password" class="form-control" name="{$name}" id="{$id}">
                 </div class="form-group">
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="address1"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS1|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$ADDRESS1}" id="{$id}">
                 </div>
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="email"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$EMAIL|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$EMAIL}" id="{$id}">
                 </div class="form-group">
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="address2"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS2|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$ADDRESS2}" id="{$id}">
                 </div>
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="zipcode"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ZIPCODE|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$ZIPCODE}" id="{$id}">
                 </div>
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="address3"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS3|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$ADDRESS3}" id="{$id}">
                 </div>
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="city"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$CITY|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <input type="text" class="form-control" name="{$name}" value="{$CITY}" id="{$id}">
                 </div>
             {/form_field}
         </div>
         <div class="col-md-6">
-            {assign "country_id" $COUNTRY_ID|default:null}
+            {assign "country_id" $COUNTRY_ID}
             {form_field field="country_id"}
                 <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <select class="form-control" name="{$name|default:null}" id="{$id|default:null}">
+                    <label for="{$label_attr.for}">{$label}</label>
+                    <select class="form-control" name="{$name}" id="{$id}">
                         <option value="">{intl l="Chose a country"}</option>
                         {loop type="country" name="sub_customer_country_loop" visible="yes"}
-                            <option value="{$ID|default:null}" {if $ID === $country_id|default:null} selected {/if}>{$TITLE|default:null}</option>
+                            <option value="{$ID}" {if $ID === $country_id} selected {/if}>{$TITLE}</option>
                         {/loop}
                     </select>
                 </div>
             {/form_field}
         </div>
 
-        {if $create|default:null === true}
+        {if $create === true}
             <input type="submit" class="btn btn-success hide_create_sub_customer" value="{intl l='Submit'}">
             <input type="button" class="btn btn-danger hide_create_sub_customer" value="{intl l='Cancel'}">
         {/if}
 
-        {if $update|default:null === true}
-            <input type="submit" class="btn btn-success hide_update_sub_customer" data-id="{$ID|default:null}" value="{intl l='Update'}">
-            <input type="button" class="btn btn-danger hide_update_sub_customer" data-id="{$ID|default:null}" value="{intl l='Cancel'}">
+        {if $update === true}
+            <input type="submit" class="btn btn-success hide_update_sub_customer" data-id="{$ID}" value="{intl l='Update'}">
+            <input type="button" class="btn btn-danger hide_update_sub_customer" data-id="{$ID}" value="{intl l='Cancel'}">
         {/if}
     </form>
 {/form}
