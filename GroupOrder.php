@@ -12,8 +12,8 @@
 
 namespace GroupOrder;
 
-use GroupOrder\Model\GroupOrderQuery;
 use Propel\Runtime\Connection\ConnectionInterface;
+use SplFileInfo;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symfony\Component\Finder\Finder;
 use Thelia\Install\Database;
@@ -22,21 +22,22 @@ use Thelia\Module\BaseModule;
 class GroupOrder extends BaseModule
 {
     /** @var string */
-    const DOMAIN_NAME = 'grouporder';
+    const string DOMAIN_NAME = 'grouporder';
 
     /*
      * You may now override BaseModuleInterface methods, such as:
      * install, destroy, preActivation, postActivation, preDeactivation, postDeactivation
      *
-     * Have fun !
+     * Have fun!
      */
     public function postActivation(ConnectionInterface $con = null): void
     {
-        try {
-            GroupOrderQuery::create()->findOne();
-        } catch (\Exception $e) {
+        parent::postActivation($con);
+
+        if (!self::getConfigValue('is_initialized',null)){
             $database = new Database($con);
-            $database->insertSql(null, [__DIR__ . "/Config/thelia.sql"]);
+            $database->insertSql(null, [__DIR__ . "/Config/TheliaMain.sql"]);
+            self::setConfigValue('is_initialized', 1);
         }
     }
 
@@ -44,7 +45,7 @@ class GroupOrder extends BaseModule
     {
         $sqlToExecute = [];
         $finder = new Finder();
-        $sort = function (\SplFileInfo $a, \SplFileInfo $b) {
+        $sort = function (SplFileInfo $a, SplFileInfo $b) {
             $a = strtolower(substr($a->getRelativePathname(), 0, -4));
             $b = strtolower(substr($b->getRelativePathname(), 0, -4));
             return version_compare($a, $b);
@@ -65,5 +66,12 @@ class GroupOrder extends BaseModule
         foreach ($sqlToExecute as $version => $sql) {
             $database->insertSql(null, [$sql]);
         }
+    }
+
+    public static function configureServices(ServicesConfigurator $servicesConfigurator): void {
+        $servicesConfigurator->load(self::getModuleCode().'\\', __DIR__)
+            ->exclude([THELIA_MODULE_DIR . ucfirst(self::getModuleCode()). "/I18n/*"])
+            ->autowire(true)
+            ->autoconfigure(true);
     }
 }

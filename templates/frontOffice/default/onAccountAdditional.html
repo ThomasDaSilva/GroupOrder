@@ -6,7 +6,9 @@
     </button>
 </div>
 
-<div class="col-md-12" id="create_sub_customer" hidden>
+{$section = $smarty.get.section|default:null}
+
+<div class="col-md-12" id="create_sub_customer" {if $section=='create_sub_customer'}{else}hidden{/if} >
     {include
     file="includes/sub-customer-form.html"
     action="/GroupOrder/SubCustomer/CreateOrUpdate"
@@ -24,7 +26,7 @@
                 </div>
             </div>
             <div class="panel-body table-responsive">
-                <div id="update_sub_customer_{$ID|default:null}" hidden>
+                <div id="update_sub_customer_{$ID|default:null}" {if $section=="update_sub_customer_$ID"}{else}hidden{/if}>
                     {include
                     file="includes/sub-customer-form.html"
                     action="/GroupOrder/SubCustomer/CreateOrUpdate/{$ID}"

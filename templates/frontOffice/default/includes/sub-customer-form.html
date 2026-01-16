@@ -2,11 +2,37 @@
     <form action="{url path=$action|default:null}" method="post">
         {form_hidden_fields}
 
+        {form_field field='success_url'}
+            <input type="hidden" name="{$name}" value="{url path="/account"}" />
+        {/form_field}
+        {form_field field='error_url'}
+
+        {if $create|default:null === true}
+            <input type="hidden" name="{$name}" value="{url path="/account?section=create_sub_customer"}" />
+        {/if}
+        {if $update|default:null === true}
+            <input type="hidden" name="{$name}" value="{url path="/account?section=update_sub_customer_$ID"}" />
+        {/if}
+
+        {/form_field}
+
+        {if $form_error}
+            {if ($create|default:null === true && $section=='create_sub_customer') || ($update|default:null === true && $section=="update_sub_customer_$ID")}
+                <div class="col-md-6">
+                    <div class="alert alert-danger">{$form_error_message}</div>
+                </div>
+            {/if}
+        {/if}
+
         <div class="col-md-6">
             {form_field field="firstname"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$FIRSTNAME|default:null}" id="{$id|default:null}">
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$FIRSTNAME|default:null}">
+                    {/if}
                 </div>
             {/form_field}
         </div>
@@ -14,7 +40,11 @@
             {form_field field="lastname"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$LASTNAME|default:null}" id="{$id|default:null}">
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$LASTNAME|default:null}">
+                    {/if}
                 </div class="form-group">
             {/form_field}
         </div>
@@ -22,7 +52,11 @@
             {form_field field="login"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$LOGIN|default:null}" id="{$id|default:null}">
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$LOGIN|default:null}">
+                    {/if}
                 </div class="form-group">
             {/form_field}
         </div>
@@ -30,7 +64,19 @@
             {form_field field="password"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="password" class="form-control" name="{$name|default:null}" id="{$id|default:null}">
+                    <input type="password" class="form-control" name="{$name|default:null}">
+                </div class="form-group">
+            {/form_field}
+        </div>
+        <div class="col-md-6">
+            {form_field field="email"}
+                <div class="form-group">
+                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$EMAIL|default:null}">
+                    {/if}
                 </div class="form-group">
             {/form_field}
         </div>
@@ -38,31 +84,23 @@
             {form_field field="address1"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS1|default:null}" id="{$id|default:null}">
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS1|default:null}">
+                    {/if}
                 </div>
-            {/form_field}
-        </div>
-        <div class="col-md-6">
-            {form_field field="email"}
-                <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$EMAIL|default:null}" id="{$id|default:null}">
-                </div class="form-group">
             {/form_field}
         </div>
         <div class="col-md-6">
             {form_field field="address2"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS2|default:null}" id="{$id|default:null}">
-                </div>
-            {/form_field}
-        </div>
-        <div class="col-md-6">
-            {form_field field="zipcode"}
-                <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ZIPCODE|default:null}" id="{$id|default:null}">
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS2|default:null}">
+                    {/if}
                 </div>
             {/form_field}
         </div>
@@ -70,7 +108,23 @@
             {form_field field="address3"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS3|default:null}" id="{$id|default:null}">
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS3|default:null}">
+                    {/if}
+                </div>
+            {/form_field}
+        </div>
+        <div class="col-md-6">
+            {form_field field="zipcode"}
+                <div class="form-group">
+                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$ZIPCODE|default:null}">
+                    {/if}
                 </div>
             {/form_field}
         </div>
@@ -78,19 +132,28 @@
             {form_field field="city"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$CITY|default:null}" id="{$id|default:null}">
+                    {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$value|default:null}">
+                    {else}
+                        <input type="text" class="form-control" name="{$name|default:null}" value="{$CITY|default:null}">
+                    {/if}
                 </div>
             {/form_field}
         </div>
         <div class="col-md-6">
-            {assign "country_id" $COUNTRY_ID|default:null}
             {form_field field="country_id"}
+                {if $section=='create_sub_customer' || $section=="update_sub_customer_$ID"}
+                    {assign "country_id" $value|default:null}
+                {else}
+                    {assign "country_id" $COUNTRY_ID|default:null}
+                {/if}
+
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <select class="form-control" name="{$name|default:null}" id="{$id|default:null}">
+                    <select class="form-control" name="{$name|default:null}">
                         <option value="">{intl l="Chose a country"}</option>
                         {loop type="country" name="sub_customer_country_loop" visible="yes"}
-                            <option value="{$ID|default:null}" {if $ID === $country_id|default:null} selected {/if}>{$TITLE|default:null}</option>
+                            <option value="{$ID|default:null}" {if $ID == $country_id|default:null} selected {/if}>{$TITLE|default:null}</option>
                         {/loop}
                     </select>
                 </div>
