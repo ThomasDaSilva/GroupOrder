@@ -35,19 +35,19 @@
             {/form_field}
         </div>
         <div class="col-md-6">
-            {form_field field="address1"}
-                <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS1|default:null}" id="{$id|default:null}">
-                </div>
-            {/form_field}
-        </div>
-        <div class="col-md-6">
             {form_field field="email"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
                     <input type="text" class="form-control" name="{$name|default:null}" value="{$EMAIL|default:null}" id="{$id|default:null}">
                 </div class="form-group">
+            {/form_field}
+        </div>
+        <div class="col-md-6">
+            {form_field field="address1"}
+                <div class="form-group">
+                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
+                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS1|default:null}" id="{$id|default:null}">
+                </div>
             {/form_field}
         </div>
         <div class="col-md-6">
@@ -59,18 +59,18 @@
             {/form_field}
         </div>
         <div class="col-md-6">
-            {form_field field="zipcode"}
-                <div class="form-group">
-                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
-                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ZIPCODE|default:null}" id="{$id|default:null}">
-                </div>
-            {/form_field}
-        </div>
-        <div class="col-md-6">
             {form_field field="address3"}
                 <div class="form-group">
                     <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
                     <input type="text" class="form-control" name="{$name|default:null}" value="{$ADDRESS3|default:null}" id="{$id|default:null}">
+                </div>
+            {/form_field}
+        </div>
+        <div class="col-md-6">
+            {form_field field="zipcode"}
+                <div class="form-group">
+                    <label for="{$label_attr.for|default:null}">{$label|default:null}</label>
+                    <input type="text" class="form-control" name="{$name|default:null}" value="{$ZIPCODE|default:null}" id="{$id|default:null}">
                 </div>
             {/form_field}
         </div>

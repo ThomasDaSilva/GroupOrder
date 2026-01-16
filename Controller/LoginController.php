@@ -12,20 +12,19 @@ namespace GroupOrder\Controller;
 use GroupOrder\Form\SubCustomerLoginForm;
 use GroupOrder\Model\GroupOrderSubCustomer;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Tools\URL;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("", name="group_order_log_")
- */
+
+#[Route("", name: "group_order_log_")]
 class LoginController extends BaseFrontController
 {
-    /**
-     * @Route("/login/sub-customer", name="login")
-     */
-    public function login(RequestStack $requestStack)
+    #[Route("/login/sub-customer", name: "login")]
+    public function login(RequestStack $requestStack): RedirectResponse|Response
     {
         try {
             $form = $this->validateForm($this->createForm(SubCustomerLoginForm::getName()));
@@ -52,10 +51,8 @@ class LoginController extends BaseFrontController
         return $this->generateRedirect(URL::getInstance()->absoluteUrl("/login"));
     }
 
-    /**
-     * @Route("/logout/sub-customer", name="logout")
-     */
-    public function logout(RequestStack $requestStack)
+    #[Route("/logout/sub-customer", name: "logout")]
+    public function logout(RequestStack $requestStack): RedirectResponse|Response
     {
         $requestStack->getCurrentRequest()->getSession()->set("GroupOrderLoginSubCustomer", null);
         $requestStack->getCurrentRequest()->getSession()->set("GroupOrderMainCustomer", null);

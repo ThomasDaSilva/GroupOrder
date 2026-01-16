@@ -12,27 +12,29 @@ namespace GroupOrder\Controller;
 use GroupOrder\Model\Base\GroupOrderMainCustomerQuery;
 use GroupOrder\Model\GroupOrderCartItem;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
+use Propel\Runtime\Exception\PropelException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Controller\Front\BaseFrontController;
+use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Model\Cart;
 use Thelia\Model\CartQuery;
 use Thelia\Tools\URL;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/cart", name="group_order_cart_")
- */
 
+#[Route("/cart", name: "group_order_cart_")]
 class CartController extends BaseFrontController
 {
     /**
-     * @Route("/sub-customer", name="validate")
-     * @throws \Propel\Runtime\Exception\PropelException
+     * @throws PropelException
      */
-    public function validate(Session $session)
+    #[Route("/sub-customer", name: "validate")]
+    public function validate(RequestStack $requestStack, Session $session): Response|RedirectResponse
     {
-        $subCustomerId = $this->getRequest()->getSession()->get("GroupOrderLoginSubCustomer");
-        $mainCustomerId = $this->getRequest()->getSession()->get("GroupOrderMainCustomer");
+        $subCustomerId = $requestStack->getCurrentRequest()->getSession()->get("GroupOrderLoginSubCustomer");
+        $mainCustomerId = $requestStack->getCurrentRequest()->getSession()->get("GroupOrderMainCustomer");
 
         if ($subCustomerId && $mainCustomerId) {
             $cartItems = $session->getSessionCart()->getCartItems();

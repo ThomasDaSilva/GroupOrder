@@ -23,7 +23,7 @@ use Thelia\Model\CountryQuery;
 
 class SubCustomerForm extends BaseForm
 {
-    protected function buildForm()
+    protected function buildForm(): void
     {
         $countries = CountryQuery::create()->filterByVisible(1)->find();
         $choice = [];
@@ -123,7 +123,7 @@ class SubCustomerForm extends BaseForm
             ));
     }
 
-    public static function getName()
+    public static function getName(): string
     {
         return 'group_order_sub_customer';
     }

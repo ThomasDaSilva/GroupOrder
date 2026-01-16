@@ -1,3 +1,4 @@
+{ifloop rel="sub_customer_sticky_window"}
 <div class="CartManagerPreview">
     {loop type="group_order_sub_customer" name="sub_customer_sticky_window" main_customer=$mainCustomerId|default:null}
     <div class="CartManagerPreview-user">
@@ -10,3 +11,4 @@
     </div>
     {/loop}
 </div>
+{/ifloop}
