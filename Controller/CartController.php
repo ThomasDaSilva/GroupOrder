@@ -14,10 +14,11 @@ use GroupOrder\Model\GroupOrderCartItem;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
 use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Controller\Front\BaseFrontController;
+use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\HttpFoundation\Session\Session;
+use Thelia\Log\Tlog;
 use Thelia\Model\Cart;
 use Thelia\Model\CartQuery;
 use Thelia\Tools\URL;
@@ -28,13 +29,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class CartController extends BaseFrontController
 {
     /**
-     * @throws PropelException
+     * @param Request $request
+     * @param Session $session
+     * @return Response|RedirectResponse
      */
     #[Route("/sub-customer", name: "validate")]
-    public function validate(RequestStack $requestStack, Session $session): Response|RedirectResponse
+    public function validate(Request $request, Session $session): Response|RedirectResponse
     {
-        $subCustomerId = $requestStack->getCurrentRequest()->getSession()->get("GroupOrderLoginSubCustomer");
-        $mainCustomerId = $requestStack->getCurrentRequest()->getSession()->get("GroupOrderMainCustomer");
+        $subCustomerId = $request->getSession()->get("GroupOrderLoginSubCustomer");
+        $mainCustomerId = $request->getSession()->get("GroupOrderMainCustomer");
 
         try {
             if ($subCustomerId && $mainCustomerId) {
@@ -68,7 +71,7 @@ class CartController extends BaseFrontController
                 return $this->render("valide-cart");
             }
         } catch (\Exception $e) {
-            // todo
+            Tlog::getInstance()->error(sprintf('Error during sub-customer cart validation : %s', $e->getMessage()));
         }
 
         return $this->generateRedirect(URL::getInstance()->absoluteUrl("/cart"));

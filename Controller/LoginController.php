@@ -21,6 +21,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\Event\Customer\CustomerLoginEvent;
 use Thelia\Core\Event\TheliaEvents;
+use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Translation\Translator;
 use Thelia\Tools\URL;
@@ -31,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LoginController extends BaseFrontController
 {
     #[Route("/login/sub-customer", name: "login")]
-    public function login(RequestStack $requestStack, ParserContext $parserContext, EventDispatcherInterface $eventDispatcher): RedirectResponse|Response
+    public function login(Request $request, ParserContext $parserContext): RedirectResponse|Response
     {
         $form = $this->createForm(SubCustomerLoginForm::getName());
 
@@ -46,8 +47,8 @@ class LoginController extends BaseFrontController
                 if (password_verify($password, $subCustomer->getPassword())) {
                     $mainCustomer = $subCustomer->getGroupOrderMainCustomer();
 
-                    $requestStack->getCurrentRequest()->getSession()->set("GroupOrderLoginSubCustomer", $subCustomer->getId());
-                    $requestStack->getCurrentRequest()->getSession()->set("GroupOrderMainCustomer", $mainCustomer->getId());
+                    $request->getSession()->set("GroupOrderLoginSubCustomer", $subCustomer->getId());
+                    $request->getSession()->set("GroupOrderMainCustomer", $mainCustomer->getId());
 
                     return $this->generateRedirect(URL::getInstance()->absoluteUrl(""));
                 }
@@ -68,10 +69,10 @@ class LoginController extends BaseFrontController
     }
 
     #[Route("/logout/sub-customer", name: "logout")]
-    public function logout(RequestStack $requestStack): RedirectResponse|Response
+    public function logout(Request $request): RedirectResponse|Response
     {
-        $requestStack->getCurrentRequest()->getSession()->set("GroupOrderLoginSubCustomer", null);
-        $requestStack->getCurrentRequest()->getSession()->set("GroupOrderMainCustomer", null);
+        $request->getSession()->set("GroupOrderLoginSubCustomer", null);
+        $request->getSession()->set("GroupOrderMainCustomer", null);
 
         return $this->generateRedirect(URL::getInstance()->absoluteUrl(""));
     }
