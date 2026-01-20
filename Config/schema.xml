@@ -49,6 +49,14 @@
         <foreign-key foreignTable="country" name="fk_group_order_country_id" onDelete="RESTRICT" onUpdate="RESTRICT">
             <reference foreign="id" local="country_id" />
         </foreign-key>
+
+        <unique name="group_order_email_unique">
+            <unique-column name="email" />
+        </unique>
+
+        <unique name="group_order_login_unique">
+            <unique-column name="login" />
+        </unique>
     </table>
 
     <table name="group_order_sub_order" namespace="GroupOrder\Model">

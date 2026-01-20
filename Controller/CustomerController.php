@@ -10,23 +10,22 @@ namespace GroupOrder\Controller;
 
 
 use GroupOrder\Form\SubCustomerForm;
+use GroupOrder\GroupOrder;
 use GroupOrder\Model\GroupOrderCartItem;
 use GroupOrder\Model\GroupOrderCartItemQuery;
 use GroupOrder\Model\GroupOrderSubCustomer;
 use GroupOrder\Model\GroupOrderSubCustomerQuery;
 use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\Template\ParserContext;
-use Thelia\Form\Exception\FormValidationException;
+use Thelia\Core\Translation\Translator;
 use Thelia\Model\AddressQuery;
 use Thelia\Model\CustomerQuery;
 use Thelia\TaxEngine\Calculator;
 use Thelia\Tools\MoneyFormat;
-use Thelia\Tools\URL;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -37,6 +36,8 @@ class CustomerController extends BaseFrontController
     #[Route("/GroupOrder/SubCustomer/CreateOrUpdate/{id}", name: "update")]
     public function createOrUpdateSubCustomer(Request $request, ParserContext $parserContext): RedirectResponse|Response
     {
+        $translator = Translator::getInstance();
+
         $subCustomerId = $request->get('id');
         $mainCustomer = $request->getSession()->get("CurrentUserIsMainCustomer");
 
@@ -48,11 +49,25 @@ class CustomerController extends BaseFrontController
             $plainPassword = $data['password'];
             $password = password_hash($plainPassword, PASSWORD_BCRYPT);
 
+            // update existing customer
             if ($subCustomerId) {
                 $subCustomer = GroupOrderSubCustomerQuery::create()->filterById($subCustomerId)->findOne();
             }
 
+            // create new customer
             if (!$subCustomerId) {
+                if (GroupOrderSubCustomerQuery::create()->filterByEmail($data['email'])->findOne()) {
+                    throw new \Exception($translator->trans('Email already exists', [], GroupOrder::DOMAIN_NAME));
+                }
+
+                if (GroupOrderSubCustomerQuery::create()->filterByLogin($data['login'])->findOne()) {
+                    throw new \Exception($translator->trans('Invalid login', [], GroupOrder::DOMAIN_NAME));
+                }
+
+                if (null === $plainPassword) {
+                    throw new \Exception($translator->trans('Password cannot be empty', [], GroupOrder::DOMAIN_NAME));
+                }
+
                 $subCustomer = new GroupOrderSubCustomer();
             }
 

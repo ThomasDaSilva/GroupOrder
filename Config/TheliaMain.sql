@@ -71,6 +71,8 @@ CREATE TABLE `group_order_sub_customer`
     `login` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE INDEX `group_order_email_unique` (`email`),
+    UNIQUE INDEX `group_order_login_unique` (`login`),
     INDEX `fi_group_order_sub_main_id` (`main_customer_id`),
     INDEX `fi_group_order_country_id` (`country_id`),
     CONSTRAINT `fk_group_order_sub_main_id`
