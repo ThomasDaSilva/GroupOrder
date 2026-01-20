@@ -25,7 +25,7 @@ use Thelia\Core\Translation\Translator;
 
 class CustomerListener implements EventSubscriberInterface
 {
-    const string MAIN_CUSTOMER_CHECKBOX = "main_customer_checkbox";
+    const MAIN_CUSTOMER_CHECKBOX = "main_customer_checkbox";
 
     public function __construct(protected RequestStack $requestStack)
     {

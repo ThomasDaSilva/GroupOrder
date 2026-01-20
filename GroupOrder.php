@@ -22,7 +22,7 @@ use Thelia\Module\BaseModule;
 class GroupOrder extends BaseModule
 {
     /** @var string */
-    const string DOMAIN_NAME = 'grouporder';
+    const DOMAIN_NAME = 'grouporder';
 
     /*
      * You may now override BaseModuleInterface methods, such as:
